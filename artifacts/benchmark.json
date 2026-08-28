@@ -1,0 +1,12 @@
+{
+  "duplicate_groups": 1,
+  "duplicate_scan_files_per_second": 1341.0,
+  "duplicate_scan_ms": 3729,
+  "generated_files": 5004,
+  "large_results": 5004,
+  "large_scan_files_per_second": 132534.0,
+  "large_scan_ms": 37,
+  "ok": true,
+  "project_scan_ms": 232,
+  "projects": 1
+}

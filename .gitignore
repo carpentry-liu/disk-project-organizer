@@ -1,0 +1,11 @@
+/target/
+/dist/
+*.pdb
+*.log
+operations.jsonl
+scan-*.csv
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+

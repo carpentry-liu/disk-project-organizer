@@ -1,0 +1,45 @@
+[package]
+name = "disk-project-organizer"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+authors = ["carpentry-liu"]
+description = "High-performance Windows desktop tool for large-file discovery, exact duplicate detection, and Git-aware project organization."
+license = "MIT"
+repository = "https://github.com/carpentry-liu/disk-project-organizer"
+keywords = ["windows", "filesystem", "duplicates", "git", "organizer"]
+categories = ["filesystem", "gui"]
+
+[dependencies]
+anyhow = "1.0.104"
+blake3 = "1.8.7"
+chrono = { version = "0.4.45", features = ["serde"] }
+crossbeam-channel = "0.5.16"
+csv = "1.4.0"
+dirs = "6.0.0"
+dua-core = "3.3.0"
+eframe = { version = "0.36.1", default-features = false, features = ["default_fonts", "glow", "links"] }
+open = "5.4.2"
+parking_lot = "0.12.5"
+rayon = "1.12.0"
+rfd = "0.17.2"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+sha2 = "0.11.0"
+trash = "5.2.6"
+
+[dev-dependencies]
+tempfile = "3.25.0"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+opt-level = 3
+strip = "symbols"
+panic = "abort"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
