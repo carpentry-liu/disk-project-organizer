@@ -1,0 +1,49 @@
+name: 功能建议
+description: 用用户问题、范围和验收条件提出可评审的改进。
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 用户问题
+      description: 谁在什么场景遇到了什么问题？请先描述问题，不要只给实现方案。
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: 期望结果与价值
+      description: 完成后使用者能观察到什么变化？
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 范围与非目标
+      value: |
+        包含：
+        不包含：
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: 安全与数据影响
+      description: 是否涉及删除、移动、覆盖、Git、审计、网络或用户数据？
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      placeholder: |
+        - [ ] AC-01：可观察的成功条件
+        - [ ] AC-02：边界或失败条件
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 已考虑的替代方案
+      description: 现有功能、其他工具或更小的解决方式为什么不够？

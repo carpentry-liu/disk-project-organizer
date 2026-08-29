@@ -1,27 +1,49 @@
-name: Bug report
-description: Report incorrect scanning, duplicate grouping, or project organization behavior.
-title: "[Bug]: "
+name: 缺陷报告
+description: 报告扫描、查重、工程整理或安全保护中的异常行为。
+title: "[Bug] "
 labels: [bug]
 body:
   - type: textarea
     id: description
     attributes:
-      label: Description
+      label: 问题与影响
+      description: 发生了什么？影响了哪些文件或操作？
     validations:
       required: true
   - type: textarea
     id: reproduction
     attributes:
-      label: Reproduction steps
+      label: 最小复现步骤
+      description: 请使用临时目录或脱敏示例，不要上传私人文件。
     validations:
       required: true
   - type: input
     id: version
     attributes:
-      label: Version
+      label: 版本或 commit
       placeholder: 0.1.0
+  - type: dropdown
+    id: operation
+    attributes:
+      label: 涉及操作
+      options:
+        - 只读扫描
+        - 重复文件回收
+        - 工程移动
+        - Git 校验
+        - 导出或审计
+        - 其他
+    validations:
+      required: true
   - type: textarea
     id: logs
     attributes:
-      label: Relevant logs
+      label: 脱敏日志与实际结果
+      description: 删除用户名、私人绝对路径、令牌和文件内容后再粘贴。
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果
+    validations:
+      required: true
 
