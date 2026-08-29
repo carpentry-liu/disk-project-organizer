@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "磁盘工程整理助手：运行时架构",
+    "locale": "zh-CN",
+    "output": "disk-project-organizer.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "windowsUser",
+      "type": "external",
+      "label": "Windows 用户",
+      "sublabel": "选择范围与阈值",
+      "pos": [20, 390],
+      "size": [120, 70]
+    },
+    {
+      "id": "eguiApp",
+      "type": "frontend",
+      "label": "egui 桌面界面",
+      "sublabel": "四类工作台",
+      "pos": [170, 390],
+      "size": [155, 76]
+    },
+    {
+      "id": "jobController",
+      "type": "backend",
+      "label": "后台任务控制器",
+      "sublabel": "线程、进度事件与取消令牌",
+      "pos": [355, 390],
+      "size": [165, 76]
+    },
+    {
+      "id": "fileWalker",
+      "type": "backend",
+      "label": "并行文件遍历",
+      "sublabel": "dua-core 并行遍历",
+      "pos": [550, 390],
+      "size": [170, 76]
+    },
+    {
+      "id": "largeScanner",
+      "type": "backend",
+      "label": "大文件扫描器",
+      "sublabel": "阈值过滤与容量排序",
+      "pos": [780, 100],
+      "size": [160, 72]
+    },
+    {
+      "id": "duplicateScanner",
+      "type": "backend",
+      "label": "精确重复检测",
+      "sublabel": "大小 → BLAKE3 → SHA-256",
+      "pos": [780, 390],
+      "size": [160, 76]
+    },
+    {
+      "id": "projectDetector",
+      "type": "backend",
+      "label": "工程识别器",
+      "sublabel": "标记、语言、说明与 Git 状态",
+      "pos": [780, 680],
+      "size": [160, 76]
+    },
+    {
+      "id": "safetyPlanner",
+      "type": "security",
+      "label": "安全计划与确认",
+      "sublabel": "预览、确认、拒绝风险项",
+      "pos": [970, 480],
+      "size": [170, 82],
+      "tag": "默认禁止跨盘"
+    },
+    {
+      "id": "operationExecutor",
+      "type": "security",
+      "label": "变更执行器",
+      "sublabel": "回收重复文件 / 整体移动工程根",
+      "pos": [970, 620],
+      "size": [170, 82]
+    },
+    {
+      "id": "windowsStorage",
+      "type": "external",
+      "label": "Windows 文件系统",
+      "sublabel": "磁盘目录、工程根与 Git CLI",
+      "pos": [1185, 300],
+      "size": [160, 76]
+    },
+    {
+      "id": "recycleBin",
+      "type": "external",
+      "label": "Windows 回收站",
+      "sublabel": "可恢复的重复文件删除",
+      "pos": [1185, 520],
+      "size": [160, 72]
+    },
+    {
+      "id": "auditLog",
+      "type": "database",
+      "label": "操作审计日志",
+      "sublabel": "operations.jsonl",
+      "pos": [1185, 740],
+      "size": [160, 72]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Rust 原生进程",
+      "wraps": [
+        "eguiApp",
+        "jobController",
+        "fileWalker",
+        "largeScanner",
+        "duplicateScanner",
+        "projectDetector",
+        "safetyPlanner",
+        "operationExecutor"
+      ],
+      "pad": 28
+    }
+  ],
+  "connections": [
+    {
+      "id": "userToUi",
+      "from": "windowsUser",
+      "to": "eguiApp",
+      "label": "选择范围并确认",
+      "labelAt": [155, 370],
+      "variant": "emphasis"
+    },
+    {
+      "id": "uiToJobs",
+      "from": "eguiApp",
+      "to": "jobController",
+      "label": "启动任务 / 接收进度",
+      "labelAt": [340, 480],
+      "variant": "emphasis"
+    },
+    {
+      "id": "jobsToWalker",
+      "from": "jobController",
+      "to": "fileWalker",
+      "label": "扫描根目录 + 取消令牌",
+      "labelAt": [535, 480],
+      "variant": "emphasis"
+    },
+    {
+      "id": "walkerToLarge",
+      "from": "fileWalker",
+      "to": "largeScanner",
+      "label": "候选文件元数据"
+    },
+    {
+      "id": "walkerToDuplicates",
+      "from": "fileWalker",
+      "to": "duplicateScanner",
+      "label": "同尺寸候选",
+      "labelAt": [700, 500],
+      "variant": "emphasis"
+    },
+    {
+      "id": "walkerToProjects",
+      "from": "fileWalker",
+      "to": "projectDetector",
+      "label": "目录与工程标记"
+    },
+    {
+      "id": "duplicatesToSafety",
+      "from": "duplicateScanner",
+      "to": "safetyPlanner",
+      "label": "重复组与所选副本",
+      "labelAt": [955, 386],
+      "variant": "security"
+    },
+    {
+      "id": "projectsToSafety",
+      "from": "projectDetector",
+      "to": "safetyPlanner",
+      "label": "分类建议与移动计划",
+      "variant": "security"
+    },
+    {
+      "id": "safetyToExecutor",
+      "from": "safetyPlanner",
+      "to": "operationExecutor",
+      "label": "用户确认的安全操作",
+      "labelAt": [1055, 600],
+      "variant": "security"
+    },
+    {
+      "id": "executorToStorage",
+      "from": "operationExecutor",
+      "to": "windowsStorage",
+      "label": "整体移动 + Git 一致性校验",
+      "labelAt": [1163, 476],
+      "variant": "security"
+    },
+    {
+      "id": "executorToRecycle",
+      "from": "operationExecutor",
+      "to": "recycleBin",
+      "label": "trash::delete_all",
+      "labelAt": [1110, 580],
+      "variant": "security"
+    },
+    {
+      "id": "executorToAudit",
+      "from": "operationExecutor",
+      "to": "auditLog",
+      "label": "追加 OperationRecord",
+      "labelAt": [1163, 716]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "只读扫描",
+      "items": [
+        "文件遍历、查重和工程识别均在后台线程运行",
+        "跳过系统目录、依赖缓存、构建产物与重解析点"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "精确与性能",
+      "items": [
+        "重复检测仅对逐级存活的候选读取完整内容",
+        "Rayon 并行哈希，dua-core 并行遍历目录"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "变更护栏",
+      "items": [
+        "重复组至少保留一份，删除进入 Windows 回收站",
+        "工程按根目录移动；Git 校验失败时尝试回滚并写审计"
+      ]
+    }
+  ]
+}
