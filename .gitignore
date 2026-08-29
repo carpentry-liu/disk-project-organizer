@@ -8,4 +8,5 @@ scan-*.csv
 .vscode/
 .DS_Store
 Thumbs.db
+docs/architecture/*.visual-check.*
 

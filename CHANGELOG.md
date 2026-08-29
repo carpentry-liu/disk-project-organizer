@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Publish a vector architecture diagram and high-resolution PNG for clear GitHub rendering.
+- Add repository-level AI collaboration rules, change-proposal guidance, and review templates.
+- Expand contributor guidance around safety evidence, reproducible verification, and AI disclosure.
+
 ## 0.1.0 - 2026-08-28
 
 - Native Windows GUI built with Rust and egui.

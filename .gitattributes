@@ -1,0 +1,2 @@
+docs/architecture/*.svg text eol=lf whitespace=-trailing-space
+docs/architecture/*.png binary

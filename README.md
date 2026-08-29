@@ -5,6 +5,14 @@
 > [!IMPORTANT]
 > 扫描操作只读；重复文件只会移入 Windows 回收站；工程整理会移动整个工程根目录。首次使用时请先扫描小范围目录，并在执行变更前核对选择项、目标路径和备份。
 
+## 适合谁
+
+- 开发盘被历史工程、构建产物和重复依赖占满，需要先看清再清理的人。
+- 同时维护 Git、CMake、Visual Studio、Python、Node.js、Rust 或 Go 工程，希望按用途统一归档的人。
+- 不愿把目录、文件名或内容上传云端，希望工具完全在本机运行的人。
+
+本项目把“让工具替你决定”改成“让工具把证据和计划摆出来”：先扫描、再预览，只有明确选择和二次确认后才执行变更。核心安全行为有自动化测试，所有变更操作都有本地审计记录。
+
 ## 功能概览
 
 | 功能 | 处理方式 | 是否修改文件 |
@@ -17,13 +25,16 @@
 
 ## 运行时架构
 
-[![磁盘工程整理助手运行时架构](docs/architecture/disk-project-organizer-architecture.png)](docs/architecture/disk-project-organizer.html)
+[![磁盘工程整理助手运行时架构](docs/architecture/disk-project-organizer-architecture.svg)](docs/architecture/disk-project-organizer-architecture.png?raw=1)
 
-架构图由仓库级 Archify 技能生成，并通过 showcase 校验与多分辨率浅色/深色视觉检查。点击图片可查看自包含 HTML；若 GitHub 未直接预览，请下载后用浏览器打开。
+架构图由仓库级 Archify 技能生成，并通过 showcase 校验与多分辨率浅色/深色视觉检查。README 使用可无损缩放的 SVG；点击图片会打开高分辨率 PNG，不再跳到 HTML 源文件。
 
-- [交互式架构图](docs/architecture/disk-project-organizer.html)
+- [打开 SVG 矢量图](docs/architecture/disk-project-organizer-architecture.svg?raw=1)
+- [打开高分辨率 PNG](docs/architecture/disk-project-organizer-architecture.png?raw=1)
 - [架构图 JSON 源](docs/architecture/disk-project-organizer.architecture.json)
 - [文字版架构说明](docs/architecture.md)
+
+交互式 HTML 不作为 GitHub 阅读入口；如需节点聚焦、路径追踪和主题切换，请下载 [`disk-project-organizer.html`](docs/architecture/disk-project-organizer.html) 后在本地浏览器打开。
 
 核心运行链路如下：
 
@@ -245,10 +256,11 @@ Archify 仅安装在本仓库的 `.agents/skills/archify`，不会影响其他�
 ```powershell
 node .agents\skills\archify\bin\archify.mjs validate architecture docs\architecture\disk-project-organizer.architecture.json --quality showcase --json
 node .agents\skills\archify\bin\archify.mjs deliver architecture docs\architecture\disk-project-organizer.architecture.json docs\architecture\disk-project-organizer.html --quality showcase --repo-root . --json
+node scripts\export-architecture-assets.mjs
 node .agents\skills\archify\bin\archify.mjs visual-check docs\architecture\disk-project-organizer.html --json
 ```
 
-交付架构图前必须确认 9/9 showcase 校验、0 错误、0 警告，并人工检查 visual-check 生成的浅色/深色截图。
+导出脚本会从自包含 HTML 生成 GitHub 使用的双主题 SVG 和高分辨率 PNG。交付前必须确认 9/9 showcase 校验、0 错误、0 警告、导出 receipt 为 canonical，并人工检查 visual-check 生成的浅色/深色截图与 PNG。
 
 ## 为什么使用 Rust
 
@@ -260,7 +272,7 @@ node .agents\skills\archify\bin\archify.mjs visual-check docs\architecture\disk-
 
 ## 贡献
 
-提交代码前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，并确保格式检查、Clippy 和测试全部通过。
+提交代码前请阅读 [贡献指南](CONTRIBUTING.md) 和 [AI 辅助开发与 Vibe Coding 约定](docs/ai-assisted-development.md)，并确保格式检查、Clippy 和测试全部通过。项目欢迎 AI 辅助贡献，但合入依据始终是清晰范围、可审查 diff、真实验证证据和人工复核，而不是使用了哪一种工具。
 
 ## 许可证
 
