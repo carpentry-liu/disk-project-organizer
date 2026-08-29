@@ -1,9 +1,31 @@
-# 磁盘工程整理助手 / Disk Project Organizer
+<div align="center">
 
-面向 Windows 的高性能原生桌面工具，用于发现大文件、精确识别重复文件，以及按用途整理 Git、CMake、Visual Studio、Python、Node.js、Rust、Go 等工程。
+# 磁盘工程整理助手
+
+**先看清，再清理。给 Windows 开发盘一张可信、可执行的整理清单。**
+
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D4?style=flat-square)](#环境要求)
+[![Rust](https://img.shields.io/badge/Rust-1.95%2B-CE422B?style=flat-square&logo=rust&logoColor=white)](#从源码运行)
+[![Safety](https://img.shields.io/badge/safety-preview%20%2B%20confirm-2E7D32?style=flat-square)](#安全模型)
+[![License](https://img.shields.io/badge/license-MIT-111111?style=flat-square)](LICENSE)
+
+面向 Windows 的高性能原生桌面工具：发现大文件、精确识别重复文件，并按用途整理 Git、CMake、Visual Studio、Python、Node.js、Rust、Go 等工程。
+
+</div>
+
+![磁盘工程整理助手扫描真实工程目录](docs/assets/disk-project-organizer-scan.png)
+
+<p align="center"><sub>真实运行截图：在 Windows 上对本仓库执行只读大文件扫描，结果按大小排序；未使用概念效果图。</sub></p>
 
 > [!IMPORTANT]
 > 扫描操作只读；重复文件只会移入 Windows 回收站；工程整理会移动整个工程根目录。首次使用时请先扫描小范围目录，并在执行变更前核对选择项、目标路径和备份。
+
+## 三件事，一条安全链路
+
+| 01 看见占用 | 02 确认重复 | 03 整理工程 |
+|---|---|---|
+| 并行扫描大文件，按逻辑大小与实际占用排序 | 大小 → BLAKE3 → 完整 SHA-256，只有内容完全一致才成组 | 识别工程根、语言与 Git 状态，先生成移动计划 |
+| **只读** | **选中 + 二次确认 + 回收站** | **整工程移动 + 风险拒绝 + 审计** |
 
 ## 适合谁
 
