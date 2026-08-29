@@ -53,6 +53,9 @@ pub struct OrganizerApp {
 impl OrganizerApp {
     pub fn new(context: &eframe::CreationContext<'_>) -> Self {
         install_chinese_font(&context.egui_ctx);
+        // Keep the native window readable even when Windows reports a mixed or
+        // high-contrast theme to egui during startup.
+        context.egui_ctx.set_visuals(egui::Visuals::light());
         let (tx, rx) = unbounded();
         Self {
             tab: Tab::LargeFiles,
@@ -744,6 +747,8 @@ impl OrganizerApp {
 impl eframe::App for OrganizerApp {
     fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         self.poll_worker_events();
+        ui.painter()
+            .rect_filled(ui.max_rect(), 0.0, egui::Color32::from_rgb(247, 245, 239));
         ui.heading("磁盘工程整理助手");
         self.draw_root_selector(ui);
         self.draw_tabs(ui);
