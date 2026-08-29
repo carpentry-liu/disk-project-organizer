@@ -2,7 +2,7 @@
 name = "disk-project-organizer"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.95"
 authors = ["carpentry-liu"]
 description = "High-performance Windows desktop tool for large-file discovery, exact duplicate detection, and Git-aware project organization."
 license = "MIT"
